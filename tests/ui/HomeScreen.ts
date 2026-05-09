@@ -3,6 +3,10 @@ import By from "../helpers/By";
 import Locate from "../helpers/Locate";
 
 class HomeScreen extends BaseScreen {
+    constructor() {
+        super(() => this.headerTitle);
+    }
+
     private get headerTitle() {
         return Locate.onAndroid(By.text('Products'))
             .orIOS(By.accessibilityId('Catalog-screen'));
@@ -22,10 +26,6 @@ class HomeScreen extends BaseScreen {
     private get confirmLogoutDialogButton() {
         return Locate.onAndroid(By.id('android:id/button1'))
             .orIOS(By.iOSPredicateString('name == "Log Out" AND type == "XCUIElementTypeButton"'));
-    }
-
-    constructor() {
-        super(() => this.headerTitle);
     }
 
     async tapOnMenuButton() {

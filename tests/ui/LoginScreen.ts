@@ -4,6 +4,10 @@ import Locate from "../helpers/Locate";
 import { PACKAGE_NAME } from "../helpers/Constants";
 
 class LoginScreen extends BaseScreen {
+    constructor() {
+        super(() => this.headerTitle);
+    }
+
     private get headerTitle() {
         return Locate.onAndroid(By.text('Login'))
             .orIOS(By.accessibilityId('Select a username from the list below'));
@@ -19,10 +23,6 @@ class LoginScreen extends BaseScreen {
     private get loginButton() {
         return Locate.onAndroid(By.accessibilityId('Tap to login with given credentials'))
             .orIOS(By.iOSPredicateString('name == "Login" AND type == "XCUIElementTypeButton"'));
-    }
-
-    constructor() {
-        super(() => this.headerTitle);
     }
 
     async enterUsername(username: string) {
