@@ -8,10 +8,12 @@
 node_modules/
 npm-debug.log
 
-# Custom
-app/
+# Logs
 *.log
 logs/
+
+# Custom
+app/
 .tmp
 target/
 
