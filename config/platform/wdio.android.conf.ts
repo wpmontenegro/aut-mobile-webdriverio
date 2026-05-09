@@ -13,6 +13,7 @@ const platformCapabilities = {
     'appium:appPackage': PACKAGE_NAME,
     'appium:appActivity': 'com.saucelabs.mydemoapp.android.view.activities.SplashActivity',
     'appium:noReset': true,
+    "appium:autoDismissAlerts": true,
     'appium:newCommandTimeout': 240,
     // Read the reset strategies very well, they differ per platform, see
     // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/

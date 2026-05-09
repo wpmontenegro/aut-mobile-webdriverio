@@ -24,6 +24,10 @@ class LoginScreen extends BaseScreen {
         return Locate.onAndroid(By.accessibilityId('Tap to login with given credentials'))
             .orIOS(By.iOSPredicateString('name == "Login" AND type == "XCUIElementTypeButton"'));
     }
+    private get messageErrorLbl() {
+        return Locate.onAndroid(By.id(`${PACKAGE_NAME}:id/passwordErrorTV`))
+            .orIOS(By.accessibilityId('error-label'));
+    }
 
     async enterUsername(username: string) {
         await this.usernameInput.setValue(username);
@@ -49,6 +53,10 @@ class LoginScreen extends BaseScreen {
         if (browser.isIOS) {
             await this.headerTitle.click();
         }
+    }
+
+    async getMessageErrorText() {
+        return await this.messageErrorLbl.getText();
     }
 }
 

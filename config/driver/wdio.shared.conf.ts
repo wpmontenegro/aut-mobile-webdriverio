@@ -1,5 +1,3 @@
-import Hooks from '../../tests/hooks/Hooks';
-
 /**
  * All not needed configurations, for this boilerplate, are removed.
  * If you want to know which configuration options you have then you can
@@ -156,5 +154,4 @@ export const config: WebdriverIO.Config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     //
-    afterTest: Hooks.afterTest
 };
