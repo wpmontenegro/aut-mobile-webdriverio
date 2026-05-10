@@ -1,3 +1,4 @@
+import Hook from '../../tests/hooks/Hook';
 /**
  * All not needed configurations, for this boilerplate, are removed.
  * If you want to know which configuration options you have then you can
@@ -107,16 +108,20 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ["spec"],
+    reporters: [["allure", {
+        outputDir: "allure-results",
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }]],
     // Options to be passed to Mocha.
-    // mochaOpts: {
-    //     ui: "bdd",
-    //     /**
-    //      * NOTE: This has been increased for more stable Appium Native app
-    //      * tests because they can take a bit longer.
-    //      */
-    //     timeout: 3 * 60 * 1000, // 3min
-    // },
+    mochaOpts: {
+        ui: "bdd",
+        /**
+         * NOTE: This has been increased for more stable Appium Native app
+         * tests because they can take a bit longer.
+         */
+        timeout: 5 * 60 * 1000, // 5min
+    },
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
         require: ["./tests/src/**/*.ts"],
@@ -153,5 +158,8 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    //
+    before: () => {
+        beforeEach(async () => await Hook.beforeEach());
+        afterEach(async () => await Hook.afterEach());
+    },
 };

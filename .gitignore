@@ -20,3 +20,7 @@ target/
 # Env
 .env
 .env.local
+
+# Allure
+allure-report/
+allure-results/

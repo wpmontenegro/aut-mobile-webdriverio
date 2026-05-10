@@ -1,21 +1,14 @@
 import LoginScreen from '../ui/LoginScreen'
 import HomeScreen from '../ui/HomeScreen'
-import { PACKAGE_NAME } from '../helpers/Constants';
 describe('Login Functionality', () => {
 
     async function GoToLoginForm() {
-        await HomeScreen.waitForIsShown();
         await HomeScreen.tapOnMenuButton();
         await HomeScreen.tapOnLoginButton();
     }
 
     beforeEach(async () => {
-        await browser.activateApp(PACKAGE_NAME);
         await GoToLoginForm();
-    })
-
-    afterEach(async () => {
-        await browser.terminateApp(PACKAGE_NAME);
     })
 
     it('should be able log in with valid credentials', async () => {

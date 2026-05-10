@@ -1,6 +1,7 @@
 import BaseScreen from "./BaseScreen";
 import By from "../helpers/By";
 import Locate from "../helpers/Locate";
+import { TIMEOUT_15_SECONDS } from "../helpers/Constants";
 
 class HomeScreen extends BaseScreen {
     constructor() {
@@ -29,6 +30,7 @@ class HomeScreen extends BaseScreen {
     }
 
     async tapOnMenuButton() {
+        await this.menuButton.waitForDisplayed({ timeout: TIMEOUT_15_SECONDS });
         await this.menuButton.click();
     }
 
