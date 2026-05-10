@@ -7,7 +7,8 @@
     "ios.local": "wdio config/local/wdio.ios.local.conf.ts",
     "ios.bs": "wdio config/browserstack/wdio.ios.bs.conf.ts",
     "android.sauce": "wdio config/saucelabs/wdio.android.sauce.conf.ts",
-    "ios.sauce": "wdio config/saucelabs/wdio.ios.sauce.conf.ts"
+    "ios.sauce": "wdio config/saucelabs/wdio.ios.sauce.conf.ts",
+    "report": "allure generate allure-results --clean && allure open"
   },
   "keywords": [],
   "author": "William Montenegro",

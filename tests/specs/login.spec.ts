@@ -19,6 +19,6 @@ describe('Login Functionality', () => {
 
     it('should display error message with blocked user', async () => {
         await LoginScreen.submitLoginForm({ username: 'alice@example.com', password: '10203040' });
-        expect(await LoginScreen.getMessageErrorText()).toBe('Sorry this user has been locked out.');
+        expect(await LoginScreen.getMessageErrorText()).toBe('Sorry this user has been locked in.');
     })
 });

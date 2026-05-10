@@ -1,4 +1,5 @@
-import Hook from '../../tests/hooks/Hook';
+import { closeAppHook, takeScreenshotHook, openAppHook } from "../../tests/hooks/appHooks";
+
 /**
  * All not needed configurations, for this boilerplate, are removed.
  * If you want to know which configuration options you have then you can
@@ -111,7 +112,7 @@ export const config: WebdriverIO.Config = {
     reporters: [["allure", {
         outputDir: "allure-results",
         disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
     }]],
     // Options to be passed to Mocha.
     mochaOpts: {
@@ -158,8 +159,11 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
+
+    // Uso de before para cargar Hooks de Mocha
     before: () => {
-        beforeEach(async () => await Hook.beforeEach());
-        afterEach(async () => await Hook.afterEach());
+        beforeEach(async () => await openAppHook());
+        afterEach(async () => await closeAppHook());
     },
+    afterTest: async (test, context, { passed }) => await takeScreenshotHook(passed)
 };
