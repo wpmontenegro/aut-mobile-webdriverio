@@ -1,4 +1,5 @@
 import { BUNDLE_ID, PACKAGE_NAME } from "../helpers/Constants";
+import { addAttachment } from "@wdio/allure-reporter";
 
 export const openAppHook = async () => {
     const bundleId = browser.isAndroid ? PACKAGE_NAME : BUNDLE_ID;
@@ -11,7 +12,6 @@ export const closeAppHook = async () => {
 }
 
 export const takeScreenshotHook = async (passed: boolean) => {
-    if (!passed) {
-        await browser.takeScreenshot();
-    }
+    const screenshotBase64 = await browser.takeScreenshot();
+    await addAttachment("Screenshot", Buffer.from(screenshotBase64, "base64"), "image/png");
 };

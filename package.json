@@ -8,7 +8,8 @@
     "ios.bs": "wdio config/browserstack/wdio.ios.bs.conf.ts",
     "android.sauce": "wdio config/saucelabs/wdio.android.sauce.conf.ts",
     "ios.sauce": "wdio config/saucelabs/wdio.ios.sauce.conf.ts",
-    "report": "allure generate allure-results --clean && allure open"
+    "android.local.hp": "wdio config/local/wdio.android.local.conf.ts --mochaOpts.grep=@hp",
+    "report": "allure generate ./_results_/allure-raw --clean && allure open"
   },
   "keywords": [],
   "author": "William Montenegro",
@@ -30,6 +31,7 @@
     "eslint-plugin-wdio": "^9.27.1",
     "npm-failsafe": "^1.4.0",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wdio-video-reporter": "^6.2.0"
   }
 }
