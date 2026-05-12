@@ -1,62 +1,64 @@
 import BaseScreen from "./BaseScreen";
 import By from "../helpers/By";
-import Locate from "../helpers/Locate";
 import { PACKAGE_NAME } from "../helpers/Constants";
 
 class LoginScreen extends BaseScreen {
-    constructor() {
-        super(() => this.headerTitle);
+
+    private readonly selectors: Record<string, string> = {
+        headerTitle: By.platform({
+            android: By.text('Login'),
+            ios: By.accessibilityId('Select a username from the list below')
+        }),
+        usernameInput: By.platform({
+            android: By.id(`${PACKAGE_NAME}:id/nameET`),
+            ios: By.iOSPredicateString('type == "XCUIElementTypeTextField"')
+        }),
+        passwordInput: By.platform({
+            android: By.id(`${PACKAGE_NAME}:id/passwordET`),
+            ios: By.iOSPredicateString('type == "XCUIElementTypeSecureTextField"')
+        }),
+        loginButton: By.platform({
+            android: By.accessibilityId('Tap to login with given credentials'),
+            ios: By.iOSPredicateString('name == "Login" AND type == "XCUIElementTypeButton"')
+        }),
+        messageErrorLbl: By.platform({
+            android: By.id(`${PACKAGE_NAME}:id/passwordErrorTV`),
+            ios: By.accessibilityId('error-label')
+        }),
     }
 
-    private get headerTitle() {
-        return Locate.onAndroid(By.text('Login'))
-            .orIOS(By.accessibilityId('Select a username from the list below'));
-    }
-    private get usernameInput() {
-        return Locate.onAndroid(By.id(`${PACKAGE_NAME}:id/nameET`))
-            .orIOS(By.iOSPredicateString('type == "XCUIElementTypeTextField"'));
-    }
-    private get passwordInput() {
-        return Locate.onAndroid(By.id(`${PACKAGE_NAME}:id/passwordET`))
-            .orIOS(By.iOSPredicateString('type == "XCUIElementTypeSecureTextField"'));
-    }
-    private get loginButton() {
-        return Locate.onAndroid(By.accessibilityId('Tap to login with given credentials'))
-            .orIOS(By.iOSPredicateString('name == "Login" AND type == "XCUIElementTypeButton"'));
-    }
-    private get messageErrorLbl() {
-        return Locate.onAndroid(By.id(`${PACKAGE_NAME}:id/passwordErrorTV`))
-            .orIOS(By.accessibilityId('error-label'));
-    }
-
-    async enterUsername(username: string) {
-        await this.usernameInput.setValue(username);
+    async enterUsername(username: string): Promise<void> {
+        await this.setValue(this.selectors.usernameInput, username);
         await this.tapOutsideKeyboard();
     }
 
-    async enterPassword(password: string) {
-        await this.passwordInput.setValue(password);
+    async enterPassword(password: string): Promise<void> {
+        await this.setValue(this.selectors.passwordInput, password);
         await this.tapOutsideKeyboard();
     }
 
-    async tapOnLoginButton() {
-        await this.loginButton.click();
+    async tapOnLoginButton(): Promise<void> {
+        await this.tap(this.selectors.loginButton);
     }
 
-    async submitLoginForm(data: { username: string, password: string }) {
+    async submitLoginForm(data: { username: string, password: string }): Promise<void> {
         await this.enterUsername(data.username);
         await this.enterPassword(data.password);
         await this.tapOnLoginButton();
     }
 
-    async tapOutsideKeyboard() {
+    async tapOutsideKeyboard(): Promise<void> {
         if (browser.isIOS) {
-            await this.headerTitle.click();
+            await this.tap(this.selectors.headerTitle);
         }
     }
 
-    async getMessageErrorText() {
-        return await this.messageErrorLbl.getText();
+    async getMessageErrorText(): Promise<string> {
+        return await this.getText(this.selectors.messageErrorLbl);
+    }
+
+    async waitForIsShown(): Promise<boolean> {
+        return await this.waitForVisible(this.selectors.headerTitle);
     }
 }
 

@@ -4,7 +4,7 @@ import { VALID_USER_DATA, LOCKED_USER_DATA } from '../data/users.data'
 
 describe('Login Functionality', () => {
 
-    async function GoToLoginForm() {
+    async function GoToLoginForm(): Promise<void> {
         await HomeScreen.tapOnMenuButton();
         await HomeScreen.tapOnLoginButton();
     }

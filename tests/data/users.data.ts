@@ -10,7 +10,7 @@ export const LOCKED_USER_DATA = [
     {
         username: 'alice@example.com',
         password: '10203040',
-        error: 'Sorry this user has been locked in.',
+        error: 'Sorry this user has been locked out.',
         tag: '@sp'
     }
 ];

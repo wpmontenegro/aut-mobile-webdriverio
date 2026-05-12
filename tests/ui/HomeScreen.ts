@@ -1,55 +1,55 @@
 import BaseScreen from "./BaseScreen";
 import By from "../helpers/By";
-import Locate from "../helpers/Locate";
-import { TIMEOUT_15_SECONDS } from "../helpers/Constants";
 
 class HomeScreen extends BaseScreen {
-    constructor() {
-        super(() => this.headerTitle);
+
+    private readonly selectors: Record<string, string> = {
+        headerTitle: By.platform({
+            android: By.text('Products'),
+            ios: By.accessibilityId('Catalog-screen')
+        }),
+        menuButton: By.platform({
+            android: By.accessibilityId('View menu'),
+            ios: By.accessibilityId('More-tab-item')
+        }),
+        loginButton: By.platform({
+            android: By.accessibilityId('Login Menu Item'),
+            ios: By.accessibilityId('Login Button')
+        }),
+        logoutButton: By.platform({
+            android: By.accessibilityId('Logout Menu Item'),
+            ios: By.accessibilityId('LogOut-menu-item')
+        }),
+        confirmLogoutDialogButton: By.platform({
+            android: By.id('android:id/button1'),
+            ios: By.iOSPredicateString('name == "Log Out" AND type == "XCUIElementTypeButton"')
+        }),
     }
 
-    private get headerTitle() {
-        return Locate.onAndroid(By.text('Products'))
-            .orIOS(By.accessibilityId('Catalog-screen'));
-    }
-    private get menuButton() {
-        return Locate.onAndroid(By.accessibilityId('View menu'))
-            .orIOS(By.accessibilityId('More-tab-item'));
-    }
-    private get loginButton() {
-        return Locate.onAndroid(By.accessibilityId('Login Menu Item'))
-            .orIOS(By.accessibilityId('Login Button'));
-    }
-    private get logoutButton() {
-        return Locate.onAndroid(By.accessibilityId('Logout Menu Item'))
-            .orIOS(By.accessibilityId('LogOut-menu-item'));
-    }
-    private get confirmLogoutDialogButton() {
-        return Locate.onAndroid(By.id('android:id/button1'))
-            .orIOS(By.iOSPredicateString('name == "Log Out" AND type == "XCUIElementTypeButton"'));
+    async tapOnMenuButton(): Promise<void> {
+        await this.tap(this.selectors.menuButton);
     }
 
-    async tapOnMenuButton() {
-        await this.menuButton.waitForDisplayed({ timeout: TIMEOUT_15_SECONDS });
-        await this.menuButton.click();
+    async tapOnLoginButton(): Promise<void> {
+        await this.tap(this.selectors.loginButton);
     }
 
-    async tapOnLoginButton() {
-        await this.loginButton.click();
+    async tapOnLogoutButton(): Promise<void> {
+        await this.tap(this.selectors.logoutButton);
     }
 
-    async tapOnLogoutButton() {
-        await this.logoutButton.click();
+    async tapOnConfirmLogoutDialogButton(): Promise<void> {
+        await this.tap(this.selectors.confirmLogoutDialogButton);
     }
 
-    async tapOnConfirmLogoutDialogButton() {
-        await this.confirmLogoutDialogButton.click();
-    }
-
-    async logout() {
+    async logout(): Promise<void> {
         await this.tapOnMenuButton();
         await this.tapOnLogoutButton();
         await this.tapOnConfirmLogoutDialogButton();
+    }
+
+    async waitForIsShown(): Promise<boolean> {
+        return await this.waitForVisible(this.selectors.headerTitle);
     }
 }
 

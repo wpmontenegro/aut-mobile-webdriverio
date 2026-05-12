@@ -1,5 +1,26 @@
 export default class By {
 
+    /**
+     * Define platform-specific selectors in a single call.
+     * Usage: By.platform({ android: By.id('...'), ios: By.accessibilityId('...') })
+     */
+    static platform(selectors: { android: string; ios: string }): string {
+        return browser.isAndroid ? selectors.android : selectors.ios;
+    }
+
+    /**
+     * Fluent syntax for platform-specific selectors.
+     * Usage: By.onAndroid(By.id('...')).orIOS(By.accessibilityId('...'))
+     */
+    static onAndroid(androidLocator: string) {
+        return {
+            orIOS: (iosLocator: string) => browser.isAndroid ? androidLocator : iosLocator
+        };
+    }
+
+    /**
+     * Selectors using Appium methods
+     */
     static text(text: string) {
         return browser.isAndroid ? `android=new UiSelector().text("${text}")` :
             `-ios predicate string:name == "${text}" AND type == "XCUIElementTypeStaticText"`;
